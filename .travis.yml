@@ -15,5 +15,13 @@ php:
 
 install: composer update
 
-script: phpunit -v
+before_script:
+    - composer install --dev --no-interaction
+
+script:
+    - mkdir -p build/logs
+    - phpunit -v
+
+after_script:
+    - php vendor/bin/coveralls
 

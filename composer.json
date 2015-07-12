@@ -28,7 +28,7 @@
 		"doctrine/dbal" : "~2.0"
 	},
 	"config" : {
-		"bin-dir" : "bin",
+		"bin-dir" : "vendor/bin",
 		"process-timeout" : 1200
 	},
 	"extra" : {
@@ -36,5 +36,8 @@
 			"dev-master" : "1.0-dev"
 		}
 	},
-	"minumum-stablility" : "stable"
+	"minumum-stablility" : "stable",
+	"require-dev": {
+		"satooshi/php-coveralls": "^0.6.1"
+	}
 }
