@@ -3,6 +3,7 @@
 namespace PsqlTest\Types;
 
 use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 
 /**
  * @author ramunasd <ieskok@ramuno.lt>
@@ -36,7 +37,7 @@ abstract class AbstractTypeTest extends \PHPUnit_Framework_TestCase
             Type::addType($this->typeName, $this->typeClass);
         }
         $this->type = Type::getType($this->typeName);
-        $this->platform = $this->getMock('Doctrine\DBAL\Platforms\AbstractPlatform');
+        $this->platform = new PostgreSqlPlatform;
     }
     
     /**
