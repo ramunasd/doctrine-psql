@@ -1,0 +1,40 @@
+{
+	"name" : "ramunasd/doctrine-psql",
+	"description" : "Doctrine's PostgreSQL types",
+	"keywords" : [
+		"postgresql",
+		"doctrine",
+		"dbal"
+	],
+	"type" : "library",
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "Ramunas Dronga",
+			"email" : "ieskok@ramuno.lt"
+		}
+	],
+	"autoload" : {
+		"psr-4" : {
+			"Psql\\" : "./src/Psql"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"PsqlTest\\": "./tests/PsqlTest"
+		}
+    },
+	"require" : {
+		"php" : ">=5.3.3",
+		"doctrine/dbal" : "~2.0"
+	},
+	"config" : {
+		"bin-dir" : "bin",
+		"process-timeout" : 1200
+	},
+	"extra" : {
+		"branch-alias" : {
+			"dev-master" : "1.0-dev"
+		}
+	},
+	"minumum-stablility" : "stable"
+}
