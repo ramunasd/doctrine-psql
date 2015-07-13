@@ -102,27 +102,27 @@ class IntervalType extends Type
         $interval = new Interval('PT0S');
         
         if (!empty($matches['y'])) {
-            $interval->y = $matches['y'];
+            $interval->y = intval($matches['y']);
         }
         
         if (!empty($matches['m'])) {
-            $interval->m = $matches['m'];
+            $interval->m = intval($matches['m']);
         }
         
         if (!empty($matches['d'])) {
-            $interval->d = $matches['d'];
+            $interval->d = intval($matches['d']);
         }
         
         if (!empty($matches['h'])) {
-            $interval->h = $matches['h'];
+            $interval->h = intval($matches['h']);
         }
         
         if (!empty($matches['i'])) {
-            $interval->i = $matches['i'];
+            $interval->i = intval($matches['i']);
         }
         
         if (!empty($matches['s'])) {
-            $interval->s = $matches['s'];
+            $interval->s = intval($matches['s']);
         }
         
         return $interval;
