@@ -20,14 +20,19 @@ class Hstore extends \ArrayObject
     public static function fromString($string)
     {
         if (empty($string)) {
-            return new self();
+            return new self;
         }
-        $values = json_decode('{' . str_replace('"=>"', '":"', $string) . '}', true);
+        $string = ',' . $string . ',';
+        $string = preg_replace('/\s*=>\s*/', ':', trim($string));
+        $string = preg_replace('/\,\s*["]?([^:\"]+)["]?\:/', ',"$1":', $string);
+        $string = preg_replace('/:["]?([^\"]+)["]?\s*,/', ':"$1",', $string);
+        $string = trim($string, ', ');
+        $values = json_decode('{' . $string . '}', true);
         if (null === $values) {
             throw new \InvalidArgumentException('Cannot parse hstore representation');
         }
         $values = array_map(array(
-            self,
+            __CLASS__,
             'convertValue'
         ), $values);
         
@@ -44,17 +49,12 @@ class Hstore extends \ArrayObject
     public static function fromObject($object)
     {
         if (empty($object)) {
-            return new self();
+            return new self;
         }
         $values = get_object_vars($object);
         if (null === $values) {
-            throw new \InvalidArgumentException('Cannot get object values');
+            return new self;
         }
-        
-        $values = array_map(array(
-            self,
-            'convertValue'
-        ), $values);
         
         return new self($values);
     }
@@ -62,7 +62,7 @@ class Hstore extends \ArrayObject
     /**
      * Convert hstore value to PHP value
      *
-     * @param string $value            
+     * @param string $value
      * @return string|int|float|bool
      */
     public static function convertValue($value)
@@ -75,11 +75,14 @@ class Hstore extends \ArrayObject
             }
         }
         
-        if ($value == 'true') {
+        if (!strcasecmp($value, 'true')) {
             return true;
         }
-        if ($value == 'false') {
+        if (!strcasecmp($value, 'false')) {
             return false;
+        }
+        if (!strcasecmp($value, 'null')) {
+            return null;
         }
         
         return $value;
@@ -98,16 +101,47 @@ class Hstore extends \ArrayObject
         
         $string = '';
         
-        foreach ($this as $key => $value) {
-            if (!is_string($value) && !is_numeric($value) && !is_bool($value)) {
-                throw new \InvalidArgumentException("Cannot save 'nested arrays' into hstore.");
+        foreach ($this->getArrayCopy() as $key => $value) {
+            $key = $this->escape($key);
+            if ($value === null) {
+                $string .= "{$key} => NULL, ";
+                continue;
             }
-            $value = trim($value);
-            if (!is_numeric($value) && false !== strpos($value, ' ')) {
-                $value = sprintf('"%s"', $value);
+            
+            switch(gettype($value)) {
+                case 'boolean':
+                    $value = $value ? 'true' : 'false';
+                    break;
+                case 'integer':
+                case 'floatval':
+                case 'double':
+                    break;
+                case 'string':
+                    $value = $this->escape($value);
+                    break;
+                default:
+                    echo gettype($value);
+                    throw new \InvalidArgumentException('Cannot save non scalar values into hstore.');
             }
-            $string .= "{$key} => {$value},";
+
+            $string .= "{$key} => {$value}, ";
         }
+        
         return trim($string, ', ');
+    }
+    
+    /**
+     * 
+     * @param string $string
+     */
+    protected function escape($string)
+    {
+        if (empty($string)) {
+            return '""';
+        }
+        if (!is_integer($string)) {
+            $string = sprintf('"%s"', str_replace('"', '\"', $string));
+        }
+        return $string;
     }
 }

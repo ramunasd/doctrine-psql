@@ -46,6 +46,10 @@ class HstoreType extends Type
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
+        if ($value === null) {
+            return null;
+        }
+        
         if (empty($value)) {
             return new Hstore;
         }

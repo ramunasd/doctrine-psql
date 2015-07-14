@@ -104,27 +104,30 @@ abstract class AbstractArrayType extends Type
      */
     public static function parsePgToArray($input, &$output = null, $limit = false, $offset = 1)
     {
+        if ($input == '{}') {
+            return array();
+        }
+        
         if (false === $limit) {
             $limit = strlen($input) - 1;
             $output = array();
         }
-        if ('{}' != $input) {
-            do {
-                if ('{' != $input{$offset}) {
-                    $matches = array();
+    
+        do {
+            if ('{' != $input{$offset}) {
+                $matches = array();
 
-                    preg_match("/(\\{?\"([^\"\\\\]|\\\\.)*\"|[^,{}]+)+([,}]+)/", $input, $matches, 0, $offset);
-                    $offset += strlen($matches[0]);
-                    $output[] = ('"' != $matches[1]{0} ? $matches[1] : stripcslashes(substr($matches[1], 1, - 1)));
+                preg_match('/(\\{?"(["\\\\]|\\\\.)*"|[^,{}]+)+([,}]+)/"', $input, $matches, 0, $offset);
+                $offset += strlen($matches[0]);
+                $output[] = ('"' != $matches[1]{0} ? $matches[1] : stripcslashes(substr($matches[1], 1, - 1)));
 
-                    if ('},' == $matches[3]) {
-                        return $offset;
-                    }
-                } else {
-                    $offset = self::parsePgToArray($input, $output[], $limit, $offset + 1);
+                if ('},' == $matches[3]) {
+                    return $offset;
                 }
-            } while ($limit > $offset);
-        }
+            } else {
+                $offset = self::parsePgToArray($input, $output[], $limit, $offset + 1);
+            }
+        } while ($limit > $offset);
 
         return $output;
     }
@@ -159,7 +162,7 @@ abstract class AbstractArrayType extends Type
     /**
      * @param scalar $v
      * @param string $k
-     * @param mixed $userData
+     * @param AbstractPlatform $platform
      */
     protected function convertToPhpCallback(&$v, $k, AbstractPlatform $platform)
     {
@@ -169,7 +172,7 @@ abstract class AbstractArrayType extends Type
     /**
      * @param scalar $v
      * @param string $k
-     * @param mixed $userData
+     * @param AbstractPlatform $platform
      */
     protected function convertToDatabaseCallback(&$v, $k, AbstractPlatform $platform)
     {
