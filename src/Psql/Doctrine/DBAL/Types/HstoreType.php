@@ -42,7 +42,7 @@ class HstoreType extends Type
     /**
      * @param string $value
      * @param AbstractPlatform $platform
-     * @return array
+     * @return Hstore|null
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
@@ -84,7 +84,7 @@ class HstoreType extends Type
             $value = Hstore::fromString($value);
         }
         if (!$value instanceof Hstore) {
-            throw new \InvalidArgumentException("Hstore value must be off array or \stdClass.");
+            throw new \InvalidArgumentException('Hstore value must be off array or \stdClass.');
         }
 
         return $value->__toString();
