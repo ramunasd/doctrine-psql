@@ -2,8 +2,6 @@
 
 namespace PsqlTest\Types;
 
-use Doctrine\DBAL\Types\Type;
-
 /**
  * @author ramunasd <ieskok@ramuno.lt>
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
