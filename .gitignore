@@ -1,6 +1,7 @@
 .settings/
-bin/
+.idea/
 vendor/
+build/*
 .buildpath
 .project
 composer.lock
