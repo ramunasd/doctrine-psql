@@ -32,15 +32,15 @@ class Box
         $box = new self;
         
         if (!empty($value['x1'])) {
-            $box->left = floatval($array['x1']);
-            $box->bottom = floatval($array['y1']);
-            $box->right = floatval($array['x2']);
-            $box->top = floatval($array['y2']);
+            $box->left = floatval($value['x1']);
+            $box->bottom = floatval($value['y1']);
+            $box->right = floatval($value['x2']);
+            $box->top = floatval($value['y2']);
         } elseif (!empty($value[0])) {
-            $box->left = floatval($array[0]);
-            $box->bottom = floatval($array[1]);
-            $box->right = floatval($array[2]);
-            $box->top = floatval($array[3]);
+            $box->left = floatval($value[0]);
+            $box->bottom = floatval($value[1]);
+            $box->right = floatval($value[2]);
+            $box->top = floatval($value[3]);
         }
         
         return $box;

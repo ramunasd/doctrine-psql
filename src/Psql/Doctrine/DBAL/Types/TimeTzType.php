@@ -27,8 +27,9 @@ class TimeTzType extends Type
     }
 
     /**
-     * (non-PHPdoc)
-     * @see \Doctrine\DBAL\Types\Type::getSQLDeclaration()
+     * @param array $fieldDeclaration
+     * @param AbstractPlatform $platform
+     * @return string
      */
     public function getSQLDeclaration (array $fieldDeclaration, AbstractPlatform $platform)
     {
@@ -36,8 +37,9 @@ class TimeTzType extends Type
     }
 
     /**
-     * (non-PHPdoc)
-     * @see \Doctrine\DBAL\Types\Type::convertToDatabaseValue()
+     * @param mixed $value
+     * @param AbstractPlatform $platform
+     * @return null
      */
     public function convertToDatabaseValue ($value, AbstractPlatform $platform)
     {
@@ -49,8 +51,10 @@ class TimeTzType extends Type
     }
 
     /**
-     * (non-PHPdoc)
-     * @see \Doctrine\DBAL\Types\Type::convertToPHPValue()
+     * @param mixed $value
+     * @param AbstractPlatform $platform
+     * @return \DateTime|null
+     * @throws ConversionException
      */
     public function convertToPHPValue ($value, AbstractPlatform $platform)
     {

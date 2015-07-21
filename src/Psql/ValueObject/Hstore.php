@@ -131,8 +131,8 @@ class Hstore extends \ArrayObject
     }
     
     /**
-     * 
      * @param string $string
+     * @return string
      */
     protected function escape($string)
     {

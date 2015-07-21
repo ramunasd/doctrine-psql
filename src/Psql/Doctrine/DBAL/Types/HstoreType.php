@@ -43,6 +43,7 @@ class HstoreType extends Type
      * @param string $value
      * @param AbstractPlatform $platform
      * @return Hstore|null
+     * @throws ConversionException
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
@@ -64,7 +65,7 @@ class HstoreType extends Type
     }
 
     /**
-     * @param array|stdClass $value
+     * @param array|\stdClass $value
      * @param AbstractPlatform $platform
      *
      * @return string
