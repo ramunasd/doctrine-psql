@@ -10,10 +10,31 @@ namespace Psql\ValueObject\Geometry;
  */
 class Box
 {
+    /** @var int */
     public $left = 0;
+
+    /** @var int */
     public $bottom = 0;
+
+    /** @var int */
     public $right = 0;
+
+    /** @var int */
     public $top = 0;
+
+    /**
+     * @param int $left
+     * @param int $bottom
+     * @param int $right
+     * @param int $top
+     */
+    public function __construct($left = 0, $bottom = 0, $right = 0, $top = 0)
+    {
+        $this->left = $left;
+        $this->bottom = $bottom;
+        $this->right = $right;
+        $this->top = $top;
+    }
     
     /**
      * @param array $value
@@ -21,12 +42,8 @@ class Box
      */
     public static function fromArray(array $value)
     {
-        if (!count($value) == 4) {
+        if (count($value) != 4) {
             throw new \InvalidArgumentException('Box array must be from 4 elements');
-        }
-        
-        if (reset($value) === null) {
-            return null;
         }
         
         $box = new self;
