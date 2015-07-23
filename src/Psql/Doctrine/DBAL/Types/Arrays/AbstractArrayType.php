@@ -97,38 +97,16 @@ abstract class AbstractArrayType extends Type
      * @see http://www.php.net/manual/fr/ref.pgsql.php
      *
      * @param string $input
-     * @param array $output
-     * @param boolean $limit
-     * @param integer $offset
-     * @return array
+     * @return null|array
      */
-    public static function parsePgToArray($input, &$output = null, $limit = false, $offset = 1)
+    public static function parsePgToArray($input)
     {
         if ($input == '{}') {
             return array();
         }
-        
-        if (false === $limit) {
-            $limit = strlen($input) - 1;
-            $output = array();
-        }
-    
-        do {
-            if ('{' != $input{$offset}) {
-                $matches = array();
 
-                preg_match('/(\\{?"(["\\\\]|\\\\.)*"|[^,{}]+)+([,}]+)/"', $input, $matches, 0, $offset);
-                $offset += strlen($matches[0]);
-                $output[] = ('"' != $matches[1]{0} ? $matches[1] : stripcslashes(substr($matches[1], 1, - 1)));
-
-                if ('},' == $matches[3]) {
-                    return $offset;
-                }
-            } else {
-                $offset = self::parsePgToArray($input, $output[], $limit, $offset + 1);
-            }
-        } while ($limit > $offset);
-
+        $input = preg_replace(array('/(?<!\\\\){/', '/(?<!\\\\)}/'), array('[', ']'), $input);
+        $output = json_decode($input);
         return $output;
     }
 
@@ -144,7 +122,7 @@ abstract class AbstractArrayType extends Type
             }
         }
 
-        return '{' . implode(',', $array) . '}';
+        return '{' . implode(', ', $array) . '}';
     }
 
     /**
@@ -153,7 +131,7 @@ abstract class AbstractArrayType extends Type
     public function getInnerType()
     {
         if (null === $this->innerType) {
-            $this->innerType = self::getType(self::TYPE);
+            $this->innerType = self::getType(static::TYPE);
         }
 
         return $this->innerType;

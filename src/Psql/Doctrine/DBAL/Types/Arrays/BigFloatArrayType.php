@@ -11,5 +11,5 @@ namespace Psql\Doctrine\DBAL\Types\Arrays;
 class BigFloatArrayType extends AbstractArrayType
 {
     const DECLARATION = 'bigfloat[]';
-    const TYPE = 'float8';
+    const TYPE = 'bigfloat';
 }
