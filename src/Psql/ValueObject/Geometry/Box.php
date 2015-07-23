@@ -10,23 +10,23 @@ namespace Psql\ValueObject\Geometry;
  */
 class Box
 {
-    /** @var int */
+    /** @var float */
     public $left = 0;
 
-    /** @var int */
+    /** @var float */
     public $bottom = 0;
 
-    /** @var int */
+    /** @var float */
     public $right = 0;
 
-    /** @var int */
+    /** @var float */
     public $top = 0;
 
     /**
-     * @param int $left
-     * @param int $bottom
-     * @param int $right
-     * @param int $top
+     * @param float $left
+     * @param float $bottom
+     * @param float $right
+     * @param float $top
      */
     public function __construct($left = 0, $bottom = 0, $right = 0, $top = 0)
     {
