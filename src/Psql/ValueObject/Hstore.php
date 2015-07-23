@@ -42,7 +42,7 @@ class Hstore extends \ArrayObject
     /**
      * Create hstore from object
      *
-     * @param object $object            
+     * @param \stdClass $object            
      * @return self
      * @throws \InvalidArgumentException
      */
