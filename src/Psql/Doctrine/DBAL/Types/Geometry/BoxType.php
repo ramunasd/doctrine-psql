@@ -57,7 +57,7 @@ class BoxType extends Type
             throw new \InvalidArgumentException(sprintf('Box value must be instance of Box'));
         }
         
-        return sprintf('(%s, %s),(%s, %s)', $value->left, $value->bottom, $value->right, $value->top);
+        return sprintf('(%f, %f),(%f, %f)', $value->left, $value->bottom, $value->right, $value->top);
     }
 
     /**
@@ -77,10 +77,10 @@ class BoxType extends Type
         }
         
         $box = new Box;
-        $box->left = $matches[1];
-        $box->bottom = $matches[2];
-        $box->right = $matches[3];
-        $box->top = $matches[4];
+        $box->left = floatval($matches[1]);
+        $box->bottom = floatval($matches[2]);
+        $box->right = floatval($matches[3]);
+        $box->top = floatval($matches[4]);
         
         return $box;
     }
