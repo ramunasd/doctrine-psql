@@ -39,7 +39,7 @@ abstract class AbstractArrayType extends Type
             $innerDeclaration = substr($innerDeclaration, 0, - 2);
         }
 
-        return $innerDeclaration . '[]';
+        return $innerDeclaration.'[]';
     }
 
     /**
